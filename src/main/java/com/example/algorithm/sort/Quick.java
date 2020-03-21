@@ -60,5 +60,8 @@ public class Quick {
 		arr[a]=arr[b];
 		arr[b]=temp;
 	}
+	
+	
+	
 
 }
