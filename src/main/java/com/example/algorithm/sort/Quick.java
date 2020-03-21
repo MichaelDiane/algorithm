@@ -10,8 +10,17 @@ import java.util.Arrays;
 public class Quick {
 
 	public static void main(String[] args) {
-		int[] arr =  {1,4,6,7,10,2,3,5,8,9};
-		sort(arr,0,arr.length-1);
+		int[] arr =  {4,10,5,3,7};
+		quick(arr,0,arr.length-1);
+		System.out.println(Arrays.toString(arr));
+	}
+	
+	
+	private static void quick(int[] arr,int low,int high) {
+		if(low >= high)  return  ;
+		int mid= partion(arr, low, high);
+		quick(arr,low,mid-1);//左区间递归快速排序
+		quick(arr,mid+1,high); //右区间递归快速排序
 	}
 	
 	/**
@@ -19,26 +28,37 @@ public class Quick {
 	 * @param leftAxis 最小下标
 	 * @param rightAxis 最大下标
 	 */
-	public static void sort(int[] arr,int leftAxis,int rightAxis) {
-		int mid = (rightAxis+leftAxis)/2;
-		int left = leftAxis;
-		int right = rightAxis-1;
-		int axis = arr[mid];//中间轴数
-		while(left < right) {
-			while(left < right && axis > arr[left]) {//轴数<左边,数据往右移动,指针往左
-				left++;
+	public static int partion(int[] arr,int low,int high) {
+		int pivot = arr[high];//中间轴数
+		
+		int i = low;
+		int j = high-1;
+		
+		while(i <= j) {
+			while(i <=j && pivot < arr[j]) {//指针往左
+				j--;
 			}
-			while(left < right && axis < arr[right]) {//轴数>右,数据往左移动,指针往右
-				right--;
+			if(i <=j) {
+				swap(arr,i++,j);
 			}
-			if(left < right) {
-				int temp = arr[left];
-				arr[left] = arr[right];
-				arr[right]= temp;
+			while(i <=j && arr[i] <= pivot) {//指针往右
+				i++;
 			}
-			
+			if(i <=j) {
+				swap(arr,i,j--);
+			}
+			//System.out.println("------------------i="+i);
+			System.out.println(Arrays.toString(arr));
 		}
-		System.out.println(Arrays.toString(arr));
+		swap(arr,i,j);
+		return i;
+	}
+	
+	//位置交换
+	public static void swap(int[] arr ,int a,int b) {
+		int temp = arr[a];
+		arr[a]=arr[b];
+		arr[b]=temp;
 	}
 
 }
